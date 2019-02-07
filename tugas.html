@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GEMA MR</title>
+</head>
+<style>
+    table,th,td{
+        border : 2px solid brown;
+        border-collapse : collapse;
+        padding : 15px;
+    }
+</style>
+<body>
+    <center>
+        <h1>Daftar Man-Power</h1>
+        <table>
+            <tr>
+                <td>
+                    <br><input type="text" placeholder="Nama"><br>
+                    <br><input type="number" placeholder="Usia"><br>
+                    <br>Gender<input type="radio" name="gender" value="Pria" checked>Pria
+                              <input type="radio" name="gender" value="wanita">Wanita<br>
+                    <br><input type="text" placeholder="Pekerjaan"><br>
+                    <br><input type="button" value="Submit" onclick="tambahData()"><br>
+                    <br>Sort Berdasarkan
+                    <br><input type="button" value="Nama" onclick="fnNama()">
+                        <input type="button" value="Usia" onclick="fnUsia()">
+                        <input type="button" value="Gender" onclick="fnGender()">
+                        <input type="button" value="Pekerjaan" onclick="fnJob()">
+                </td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <table id="ID">
+                       
+        </table>
+        <h1></h1>
+    </center>
+<script>
+  var data = []
+    class Orang{
+        constructor(nama,usia,gender,pekerjaan){
+            this.nama = nama;
+            this.usia = usia;
+            this.gender = gender;
+            this.pekerjaan = pekerjaan
+        }
+    }
+    tambahData = () =>{
+    
+    var selektor = document.getElementsByTagName('input')
+    var nama = selektor[0].value 
+    var usia = selektor[1].value  
+    var gender = radioCheck('gender')
+    var pekerjaan = selektor[4].value
+    if(nama == '' || usia == '' || gender == ''|| pekerjaan == ''){
+        alert('Harus diisi!')
+    }else{
+        var newMan = new Orang(nama,usia,gender,pekerjaan)
+        data.push(newMan)
+        tampil(data)
+        for(var i = 0; i < 4 ; i++){
+            selektor[0].value = ''
+            selektor[1].value = ''
+            selektor[4].value = ''
+        }
+    }
+    } 
+    radioCheck = (name) => {
+            var isi = document.getElementsByName(name);
+            for (var i = 0; i < isi.length; i++){
+                if (isi[i].checked){
+                    return isi[i].value;
+                }
+            }
+    }
+    
+    fnNama = () => {
+        var sortNama = data
+        sortNama.sort((a,b) => {
+            if(a.nama > b.nama){
+                return 1
+            } else if(a.nama < b.nama){
+                return -1
+            } else {
+                return 0
+            }
+        })
+        tampil(sortNama)
+    }
+
+    fnUsia = () => {
+        var sortUsia = data
+        sortUsia.sort((a,b) => {
+            if (a.usia > b.usia){
+                return 1
+            } else if(a.usia < b.usia){
+                return -1
+            } else {
+                return 0
+            }
+        })
+        tampil(sortUsia)
+    }
+
+    fnGender = () => {
+        var sortG = data
+        sortG.sort((a,b) => {
+            if(a.gender > b.gender){
+                return 1
+            } else if (a.gender < b.gender){
+                return -1
+            } else {
+                return 0
+            }
+        })
+        tampil(sortG)
+    }
+
+    fnJob = () => {
+        var sortJob = data
+        sortJob.sort((a,b) => {
+            if(a.pekerjaan > b.pekerjaan){
+                return 1
+            } else if(a.pekerjaan < b.pekerjaan){
+                return -1
+            } else {
+                return 0
+            }
+            
+        })
+        tampil(sortJob)
+    }
+
+    tampil = (a) =>{
+        var tampil = ''
+                tampil+=`<tr>
+                         <td>Nama</td>
+                         <td>Usia</td>
+                         <td>Gender</td>
+                         <td>Pekerjaan</td>
+                         </tr>`
+        for(var i =0 ; i <a.length;i++){
+                tampil += ` 
+                        <tr>
+                        <td>${a[i].nama}</td>
+                        <td>${a[i].usia}</td>
+                        <td>${a[i].gender}</td>
+                        <td>${a[i].pekerjaan}</td>
+                        </tr>`
+            document.getElementById('ID').innerHTML += tampil
+        }
+        document.getElementById('ID').innerHTML = tampil
+    }
+
+
+</script>
+</body>
+</html>
