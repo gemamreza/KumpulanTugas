@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>UJIAN NO 2</title>
+</head>
+<style>
+    table,th, td{
+        border : 1px solid black;
+        border-collapse : collapse;
+        padding : 15px;
+    }
+</style>
+<body>
+        <Center>
+                <table id="Isi_Table">
+                
+                </table>
+
+                <h1></h1>
+                <h3></h3>
+                <table id="Table">
+                    
+                </table>
+                <br>
+                <br>
+                <h5></h5>
+                <table id="checkOut">
+                    <tr>
+                        <td><input type="button" value="Check Out" onclick="checkOut()"></td>
+                    </tr>
+                </table>
+            </Center>
+        <script>
+            class DataMenu {
+                constructor(a,b,c){
+                    this.nama = a;
+                    this.harga = b;
+                    this.img = c;
+                }
+            }
+            var data = [
+                new DataMenu('Adidas Copa 50', 5000000 , 'https://images.sportsdirect.com/images/products/20303740_l.jpg'),
+                new DataMenu('Nike Hypervenom', 2000000 ,'https://images.sportsdirect.com/images/products/20114040_l.jpg'),
+                new DataMenu('Adidas Nemeziz', 3000000 , 'https://cdn.runrepeat.com/i/adidas/25924/adidas-nemeziz-17-1-fg-chaussures-de-football-homme-multicolore-blanc-noir-ftwbla-amasol-negbas-42-eu-homme-multicolore-blanc-noir-ftwbla-amasol-negbas-a719-600.jpg')
+            ]
+            
+           
+            function tampil(arr){
+                var output = ''
+                var a = arr.map(function(item,index){
+                    return  `<tr>
+                                <td>${item.nama}</td>
+                                 <td>${item.harga}</td>
+                                <td><img src='${item.img}' width='70px'></td>
+                                <td><input type="button" value="Add to Cart" onclick="addToCart(${index})"></td>
+                            </tr>
+                            `
+                })
+                document.getElementById("Isi_Table").innerHTML = a.join('')
+            }
+            tampil(data)
+            
+            function tampilCart(arr){
+                var output = ''
+                var a = arr.map(function(item,index){
+                    return  `<tr>
+                                <td>${item.nama}</td>
+                                 <td>${item.harga}</td>
+                                <td><img src='${item.img}' width='70px'></td>   
+                                <td><input type="button" value="delete" onclick="hapusCart(${index})"></td>                  
+                            `
+                })
+                if(newData == 0){
+                document.getElementsByTagName('h1')[0].innerHTML = "ISI KERANJANG ANDA KOSONG"
+                }
+                document.getElementsByTagName('h1')[0].innerHTML = 'ISI KERANJANG ANDA ' + newData.length
+                
+                document.getElementById("Table").innerHTML = a.join('')
+            }
+          
+            var newData = []
+            function addToCart(a){
+                if(window.confirm(`Are you sure you want to add to cart? `)){
+                newData.push(data[a])
+                var a = newData.map(function(item,index){
+                return  `<tr>
+                             <td>${item.nama}</td>
+                             <td>${item.harga}</td>
+                             <td><img src='${item.img}' width='70px'></td>
+                             <td><input type="button" value="delete" onclick="hapusCart(${index})"></td>
+                        </tr>`
+                       
+            })
+            if(newData == 0){
+                document.getElementsByTagName('h1')[0].innerHTML = "ISI KERANJANG ANDA KOSONG"
+            }
+            document.getElementsByTagName('h1')[0].innerHTML = 'ISI KERANJANG ANDA ' + newData.length
+            document.getElementById("Table").innerHTML = a.join('')
+            }
+            }
+
+            function hapusCart(a){
+                if(window.confirm (`Are you sure you want to delete this from Cart?`)){
+                newData.splice(a,1)
+                alert('Your Cart has been deleted!')
+                document.getElementsByTagName('h3')[0].innerHTML = ''
+                tampilCart(newData)
+                
+            }
+            }
+
+    var total =  0
+    function checkOut() {
+        var timeLeft = 30;
+        var elem = ''
+    
+        var timerId = setInterval(countdown, 1000);
+    
+        function countdown() {
+        if (timeLeft == -1) {
+        clearTimeout(timerId);
+        alert('Waktu Pembayaran Habis')
+        document.getElementsByTagName('h1')[0].innerHTML = "ISI KERANJANG ANDA KOSONG"
+        document.getElementsByTagName('h3')[0].innerHTML = ''
+        document.getElementById("Table").innerHTML = ''
+        document.getElementById('checkOut').innerHTML = ''
+        document.getElementById('checkOut').innerHTML = `<tr>
+                                                         <td><input type="button" value="Check Out" onclick="checkOut()"></td>
+                                                         </tr>`
+        elem = document.getElementsByTagName('h5')[0].innerHTML = '' 
+       
+        } else {
+        elem = document.getElementsByTagName('h5')[0].style.color = 'red'  
+        elem = document.getElementsByTagName('h5')[0].innerHTML = "Waktu Pembayaran Anda adalah = " + 00 +":"+00+":"+ timeLeft;
+        timeLeft--;
+        }
+        }
+
+    if(newData.length == 0){
+        alert('Anda Belum belanja apapun')
+    } else {
+        var keranjang = ''
+        var keranjang = newData.map(function(item,index){ 
+            keranjang += `${index+1}. ${item.nama} dan harga Rp. ${item.harga},-- <br>` 
+                total +=  parseFloat(item.harga) 
+                document.getElementsByTagName('h3')[0].innerHTML = 'Total Belanjaan adalah Rp ' + total 
+            var check = `<tr>
+                         <td>
+                         <input type="number" placeholder="Masukan Uang Anda">
+                         <input type="button" value="Pay" onclick="bayar()">
+                         </td>
+                         </tr>`
+            document.getElementById('checkOut').innerHTML = check
+        })
+        }
+    }
+
+        function bayar(){
+            var selektor = document.getElementsByTagName('input')
+            var bayar = parseInt(selektor[4].value)
+            var totalBayar = bayar - total
+            if(bayar < total){
+                alert('Uang anda kurang ' + (Math.abs(totalBayar)))
+            } else {
+                alert('Sisa Belanja Anda adalah ' + totalBayar)
+                document.getElementsByTagName('h1')[0].innerHTML = "ISI KERANJANG ANDA KOSONG"
+                document.getElementsByTagName('h3')[0].innerHTML = ''
+                document.getElementById("Table").innerHTML = ''
+                document.getElementById('checkOut').innerHTML = ''
+                document.getElementById('checkOut').innerHTML = `<tr>
+                                                                <td><input type="button" value="Check Out" onclick="checkOut()"></td>
+                                                                </tr>`
+
+            }
+        }
+       
+    
+        
+</script>
+</body>
+</html>
